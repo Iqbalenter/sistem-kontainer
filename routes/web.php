@@ -59,9 +59,7 @@ Route::middleware(['web'])->group(function () {
 
         // Routes khusus role admin
         Route::middleware(['role:admin'])->group(function () {
-            Route::get('/admin', function () {
-                return view('admin.index');
-            })->name('admin.index');
+            Route::get('/admin', [DashboardController::class, 'index'])->name('admin.index');
 
             Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
             
