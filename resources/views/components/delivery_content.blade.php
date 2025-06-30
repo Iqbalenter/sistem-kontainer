@@ -1,28 +1,28 @@
 <!-- First row - 3 columns -->
 <div class="grid grid-cols-3 gap-4 mb-4">
-    <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
+    <div class="flex items-center justify-center h-24 rounded-lg bg-sky-400 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105" style="background: #38bdf8;">
         <div class="text-center">
-            <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ $deliveries->where('status', 'pending')->count() }}</p>
-            <p class="text-sm text-gray-500 dark:text-gray-400">Pending Deliveries</p>
+            <p class="text-2xl font-bold" style="color: white !important;">{{ $deliveries->where('status', 'pending')->count() }}</p>
+            <p class="text-sm" style="color: white !important;">Pending Deliveries</p>
         </div>
     </div>
-    <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
+    <div class="flex items-center justify-center h-24 rounded-lg bg-sky-400 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105" style="background: #38bdf8;">
         <div class="text-center">
-            <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ $deliveries->where('status', 'confirmed')->count() }}</p>
-            <p class="text-sm text-gray-500 dark:text-gray-400">Confirmed Deliveries</p>
+            <p class="text-2xl font-bold" style="color: white !important;">{{ $deliveries->where('status', 'confirmed')->count() }}</p>
+            <p class="text-sm" style="color: white !important;">Confirmed Deliveries</p>
         </div>
     </div>
-    <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
+    <div class="flex items-center justify-center h-24 rounded-lg bg-sky-400 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105" style="background: #38bdf8;">
         <div class="text-center">
-            <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ $deliveries->where('status', 'rejected')->count() }}</p>
-            <p class="text-sm text-gray-500 dark:text-gray-400">Rejected Deliveries</p>
+            <p class="text-2xl font-bold" style="color: white !important;">{{ $deliveries->where('status', 'rejected')->count() }}</p>
+            <p class="text-sm" style="color: white !important;">Rejected Deliveries</p>
         </div>
     </div>
 </div>
 
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-700 bg-white">
+        <thead class="text-xs text-white uppercase bg-sky-400" style="background: #38bdf8;">
             <tr>
                 <th scope="col" class="px-6 py-3">Container Number</th>
                 <th scope="col" class="px-6 py-3">License Plate</th>
@@ -36,12 +36,12 @@
         </thead>
         <tbody>
             @foreach($deliveries as $delivery)
-            <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            <tr class="odd:bg-white even:bg-blue-50 border-b border-blue-200 hover:bg-blue-100 transition-colors duration-200">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                     {{ $delivery->container_number }}
                 </th>
-                <td class="px-6 py-4">{{ $delivery->license_plate }}</td>
-                <td class="px-6 py-4">{{ $delivery->luggage }}</td>
+                <td class="px-6 py-4 text-gray-800">{{ $delivery->license_plate }}</td>
+                <td class="px-6 py-4 text-gray-800">{{ $delivery->luggage }}</td>
                 <td class="px-6 py-4">
                     <span class="px-2 py-1 rounded text-xs font-medium {{ $delivery->liquid_status === 'liquid' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800' }}">
                         {{ ucfirst($delivery->liquid_status) }}
@@ -62,18 +62,18 @@
                             Block {{ $delivery->assigned_block->name }}
                         </span>
                     @else
-                        <span class="text-gray-400">Not Assigned</span>
+                        <span class="text-gray-500">Not Assigned</span>
                     @endif
                 </td>
-                <td class="px-6 py-4">{{ $delivery->user->name }}</td>
+                <td class="px-6 py-4 text-gray-800">{{ $delivery->user->name }}</td>
                 <td class="px-6 py-4">
                     @if($delivery->status === 'pending')
                     <div class="flex space-x-2">
-                        <button onclick="confirmDelivery({{ $delivery->id }})" class="font-medium text-green-600 dark:text-green-500 hover:underline">Confirm</button>
-                        <button onclick="openRejectModal({{ $delivery->id }})" class="font-medium text-red-600 dark:text-red-500 hover:underline">Reject</button>
+                        <button onclick="confirmDelivery({{ $delivery->id }})" class="px-3 py-1 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors duration-200 text-sm">Confirm</button>
+                        <button onclick="openRejectModal({{ $delivery->id }})" class="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors duration-200 text-sm">Reject</button>
                     </div>
                     @else
-                    <span class="text-gray-400">No actions available</span>
+                    <span class="text-gray-500">No actions available</span>
                     @endif
                 </td>
             </tr>
@@ -94,10 +94,10 @@
                     <textarea name="notes" rows="4" class="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none" required></textarea>
                 </div>
                 <div class="flex justify-end mt-4">
-                    <button type="button" onclick="closeRejectModal()" class="mr-2 px-4 py-2 text-gray-500 rounded-md hover:bg-gray-100">
+                    <button type="button" onclick="closeRejectModal()" class="mr-2 px-4 py-2 text-gray-500 rounded-md hover:bg-gray-100 transition-colors duration-200">
                         Batal
                     </button>
-                    <button type="submit" class="px-4 py-2 text-white bg-red-500 rounded-md hover:bg-red-600">
+                    <button type="submit" class="px-4 py-2 text-white bg-red-500 rounded-md hover:bg-red-600 transition-colors duration-200">
                         Reject
                     </button>
                 </div>

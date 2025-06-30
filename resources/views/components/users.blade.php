@@ -2,7 +2,7 @@
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <div class="flex items-center justify-between pb-4">
                 <div>
-                    <button id="addUserBtn" data-modal-target="userModal" data-modal-toggle="userModal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    <button id="addUserBtn" data-modal-target="userModal" data-modal-toggle="userModal" class="bg-sky-400 hover:bg-sky-500 text-white font-bold py-2 px-4 rounded-lg shadow-lg transition-all duration-200 hover:scale-105" style="background: #38bdf8;">
                         Tambah User
                     </button>
                 </div>
@@ -10,8 +10,8 @@
                     <input type="text" id="table-search" class="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Cari user...">
                 </div>
             </div>
-            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <table class="w-full text-sm text-left rtl:text-right text-gray-700 bg-white">
+                <thead class="text-xs text-white uppercase bg-sky-400" style="background: #38bdf8;">
                     <tr>
                         <th scope="col" class="px-6 py-3">Nama</th>
                         <th scope="col" class="px-6 py-3">Email</th>
@@ -22,14 +22,14 @@
                 </thead>
                 <tbody>
                     @foreach($users as $user)
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                        <td class="px-6 py-4">{{ $user->name }}</td>
-                        <td class="px-6 py-4">{{ $user->email }}</td>
-                        <td class="px-6 py-4">{{ $user->role }}</td>
-                        <td class="px-6 py-4">{{ $user->created_at->format('d/m/Y') }}</td>
+                    <tr class="odd:bg-white even:bg-blue-50 border-b border-blue-200 hover:bg-blue-100 transition-colors duration-200">
+                        <td class="px-6 py-4 text-gray-800">{{ $user->name }}</td>
+                        <td class="px-6 py-4 text-gray-800">{{ $user->email }}</td>
+                        <td class="px-6 py-4 text-gray-800">{{ $user->role }}</td>
+                        <td class="px-6 py-4 text-gray-800">{{ $user->created_at->format('d/m/Y') }}</td>
                         <td class="px-6 py-4">
-                            <button data-user-id="{{ $user->id }}" data-modal-target="userModal" data-modal-toggle="userModal" class="edit-user font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</button>
-                            <button onclick="deleteUser({{ $user->id }})" class="font-medium text-red-600 dark:text-red-500 hover:underline ms-3">Hapus</button>
+                            <button data-user-id="{{ $user->id }}" data-modal-target="userModal" data-modal-toggle="userModal" class="edit-user px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors duration-200 text-sm mr-2">Edit</button>
+                            <button onclick="deleteUser({{ $user->id }})" class="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors duration-200 text-sm">Hapus</button>
                         </td>
                     </tr>
                     @endforeach
@@ -77,8 +77,8 @@
                     </div>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <button type="submit" id="saveButton" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Simpan</button>
-                    <button type="button" data-modal-toggle="userModal" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900">Batal</button>
+                    <button type="submit" id="saveButton" class="text-white bg-sky-400 hover:bg-sky-500 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-colors duration-200" style="background: #38bdf8;">Simpan</button>
+                    <button type="button" data-modal-toggle="userModal" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 transition-colors duration-200">Batal</button>
                 </div>
             </form>
         </div>
