@@ -86,6 +86,10 @@ Route::middleware(['web'])->group(function () {
             // Activity Log Routes
             Route::get('/admin/log-activity', [ActivityLogController::class, 'index'])->name('admin.log_activity');
 
+            // Print PDF Routes
+            Route::get('/admin/delivery/print', [DeliveryController::class, 'printPDF'])->name('admin.delivery.print');
+            Route::get('/admin/retrieval/print', [RetrievalController::class, 'printPDF'])->name('admin.retrieval.print');
+
             // Tambahkan route untuk confirm dan reject
             Route::post('/delivery/{delivery}/confirm', [DeliveryController::class, 'confirm'])->name('delivery.confirm');
             Route::post('/delivery/{delivery}/reject', [DeliveryController::class, 'reject'])->name('delivery.reject');
