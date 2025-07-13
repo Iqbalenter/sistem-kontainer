@@ -12,6 +12,7 @@ class Retrieval extends Model
 
     protected $fillable = [
         'container_number',
+        'container_name',
         'license_plate',
         'retrieval_date',
         'status',

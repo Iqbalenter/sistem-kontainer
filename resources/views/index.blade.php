@@ -11,7 +11,7 @@
 </head>
 <body>
     @yield('content')
-
+    
     @include('components.navbar')
 
     <div class="container-fluid">

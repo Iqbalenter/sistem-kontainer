@@ -6,6 +6,8 @@ use App\Models\Delivery;
 use App\Services\ContainerPlacementService;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
+use DateTime;
 
 class DeliveryController extends Controller
 {
@@ -20,6 +22,47 @@ class DeliveryController extends Controller
     {
         $deliveries = Delivery::with('user')->latest()->get();
         return view('admin.delivery', compact('deliveries'));
+    }
+
+    public function printPDF(Request $request)
+    {
+        $query = Delivery::with('user', 'block');
+
+        // Filter berdasarkan bulan jika dipilih
+        if ($request->has('month') && $request->month) {
+            $year = $request->get('year', date('Y'));
+            $query->whereMonth('created_at', $request->month)
+                  ->whereYear('created_at', $year);
+        }
+
+        $deliveries = $query->latest()->get();
+        
+        // Validasi jika tidak ada data
+        if ($deliveries->isEmpty()) {
+            $filterText = '';
+            if ($request->has('month') && $request->month) {
+                $monthName = DateTime::createFromFormat('!m', $request->month)->format('F');
+                $year = $request->get('year', date('Y'));
+                $filterText = "bulan {$monthName} {$year}";
+            } else {
+                $filterText = 'periode yang dipilih';
+            }
+            
+            return redirect()->back()->with('error', "Tidak ada data delivery pada {$filterText}.");
+        }
+        
+        $filterText = '';
+        if ($request->has('month') && $request->month) {
+            $monthName = DateTime::createFromFormat('!m', $request->month)->format('F');
+            $year = $request->get('year', date('Y'));
+            $filterText = "Bulan: {$monthName} {$year}";
+        } else {
+            $filterText = 'Semua Data';
+        }
+
+        $pdf = Pdf::loadView('admin.pdf.delivery', compact('deliveries', 'filterText'));
+        
+        return $pdf->download('laporan-delivery-' . date('Y-m-d') . '.pdf');
     }
 
     public function store(Request $request)

@@ -26,6 +26,10 @@
             <span class="text-gray-800">{{ $container_number }}</span>
         </div>
         <div class="flex justify-between">
+            <strong class="text-gray-700">Nama Peti Kemas:</strong>
+            <span class="text-gray-800">{{ $container_name }}</span>
+        </div>
+        <div class="flex justify-between">
             <strong class="text-gray-700">Tanggal:</strong>
             <span class="text-gray-800">{{ $created_at }}</span>
         </div>

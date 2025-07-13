@@ -23,6 +23,7 @@ class RetrievalRequest extends FormRequest
     {
         return [
             'container_number' => 'required|string|max:255',
+            'container_name' => 'required|string|max:255',
             'license_plate' => 'required|string|max:255',
             'retrieval_date' => 'required|date|after_or_equal:today',
             'notes' => 'nullable|string'
@@ -34,6 +35,8 @@ class RetrievalRequest extends FormRequest
         return [
             'container_number.required' => 'Nomor container harus diisi',
             'container_number.max' => 'Nomor container tidak boleh lebih dari 255 karakter',
+            'container_name.required' => 'Nama container harus diisi',
+            'container_name.max' => 'Nama container tidak boleh lebih dari 255 karakter',
             'license_plate.required' => 'Nomor plat kendaraan harus diisi',
             'license_plate.max' => 'Nomor plat kendaraan tidak boleh lebih dari 255 karakter',
             'retrieval_date.required' => 'Tanggal pengambilan harus diisi',

@@ -7,6 +7,8 @@ use App\Models\Retrieval;
 use App\Models\Delivery;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
+use DateTime;
 
 class RetrievalController extends Controller
 {
@@ -19,6 +21,7 @@ class RetrievalController extends Controller
             session(['retrieval_data' => [
                 'id' => $retrieval->id,
                 'container_number' => $retrieval->container_number,
+                'container_name' => $retrieval->container_name,
                 'license_plate' => $retrieval->license_plate,
                 'created_at' => $retrieval->created_at->format('d/m/Y H:i')
             ]]);
@@ -26,6 +29,7 @@ class RetrievalController extends Controller
             // Redirect ke halaman waiting
             return view('user.retrieval_waiting', [
                 'container_number' => $retrieval->container_number,
+                'container_name' => $retrieval->container_name,
                 'license_plate' => $retrieval->license_plate,
                 'created_at' => $retrieval->created_at->format('d/m/Y H:i')
             ]);
@@ -40,6 +44,47 @@ class RetrievalController extends Controller
     {
         $retrievals = Retrieval::latest()->paginate(10);
         return view('admin.retrieval', compact('retrievals'));
+    }
+
+    public function printPDF(Request $request)
+    {
+        $query = Retrieval::query();
+
+        // Filter berdasarkan bulan jika dipilih
+        if ($request->has('month') && $request->month) {
+            $year = $request->get('year', date('Y'));
+            $query->whereMonth('created_at', $request->month)
+                  ->whereYear('created_at', $year);
+        }
+
+        $retrievals = $query->latest()->get();
+        
+        // Validasi jika tidak ada data
+        if ($retrievals->isEmpty()) {
+            $filterText = '';
+            if ($request->has('month') && $request->month) {
+                $monthName = DateTime::createFromFormat('!m', $request->month)->format('F');
+                $year = $request->get('year', date('Y'));
+                $filterText = "bulan {$monthName} {$year}";
+            } else {
+                $filterText = 'periode yang dipilih';
+            }
+            
+            return redirect()->back()->with('error', "Tidak ada data retrieval pada {$filterText}.");
+        }
+        
+        $filterText = '';
+        if ($request->has('month') && $request->month) {
+            $monthName = DateTime::createFromFormat('!m', $request->month)->format('F');
+            $year = $request->get('year', date('Y'));
+            $filterText = "Bulan: {$monthName} {$year}";
+        } else {
+            $filterText = 'Semua Data';
+        }
+
+        $pdf = Pdf::loadView('admin.pdf.retrieval', compact('retrievals', 'filterText'));
+        
+        return $pdf->download('laporan-retrieval-' . date('Y-m-d') . '.pdf');
     }
 
     public function index()
@@ -159,6 +204,7 @@ class RetrievalController extends Controller
 
             return view('user.retrieval_ticket', [
                 'container_number' => $retrieval->container_number,
+                'container_name' => $retrieval->container_name,
                 'license_plate' => $retrieval->license_plate,
                 'created_at' => $retrieval->created_at->format('d/m/Y H:i'),
                 'block' => $blockName

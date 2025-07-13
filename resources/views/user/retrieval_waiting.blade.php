@@ -13,6 +13,7 @@
     <div class="container-fluid flex justify-center items-center min-h-screen py-12">
         @include('components.retrieval_waiting_confirmation', [
             'container_number' => $container_number,
+            'container_name' => $container_name,
             'license_plate' => $license_plate,
             'created_at' => $created_at
         ])
